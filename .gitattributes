@@ -1,5 +1,2 @@
-# Basic .gitattributes for a python repo.
-*.py linguist-detectable=true
-*.pdf linguist-detectable=false
-*.txt linguist-detectable=false
-*.md linguist-detectable=false
+* linguist-vendored
+*.py linguist-vendored=false
