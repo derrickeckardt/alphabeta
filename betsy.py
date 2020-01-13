@@ -178,7 +178,7 @@ for max_m in range(0,100,1):
         print str(lets_play[2])+ " "+lets_play[1]
         break
     if lets_play[0] == float('inf'):
-        print "I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanguish you!"
+        print "I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanquish you!"
         print str(lets_play[2])+ " "+lets_play[1]
         break
     print str(lets_play[2])+ " "+lets_play[1]
