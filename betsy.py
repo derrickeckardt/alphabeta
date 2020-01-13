@@ -17,10 +17,10 @@
 ###############################################################################
 ###############################################################################
 
-
 # Import libraries
 import sys
 import profile # For speed optimization.
+import cProfile
 
 # Get command line input
 n, current, board, time = [int(sys.argv[1]), str(sys.argv[2]).lower(), str(sys.argv[3]), int(sys.argv[4])]
@@ -47,7 +47,6 @@ def getDiagonals(board, n):
 def winner(board, turn):
     return True if turn * n in getRows(board, n, n) + getColumns(board, n, n) + getDiagonals(board, n) else False
 
-
 # Heuristic Function
 def score(board):
     
@@ -55,10 +54,10 @@ def score(board):
         col = (n+1.0)/2.0-abs(colValue-(n+1.0)/2)
         row = n-rowValue if rowValue < n else rowValue-3
         return col*row
-    # interim = [ [spot if spot == current else spot if spot == not_current else spot for spot in row] for row in getRows(board,n+3,n)]        
+
     interim_2 =[ sum([spotValue(colValue,rowValue) if spot == current else -spotValue(colValue,rowValue) if spot == not_current else 0 for spot, colValue in zip(row, range(1,n+1))]) for row, rowValue in zip(getRows(board,n+3,n), range(1,n+4))]
     
-    # favors boards that have 4 in a row or a diagonal, if disfavors if opponent has them.
+    # favors boards that have 4 in a row or a diagonal, or disfavors if opponent has them.
     for each in getRows(board,n,n)+getDiagonals(board,n):
         if each.count(current) >= n-1:
             interim_2.extend([2*n*n])
@@ -80,8 +79,6 @@ def score(board):
         elif not_current*(n-1) in (each+each).replace(".","") and (each+each).count(".") > 0:
             interim_2.extend([-n*n])
 
-    # print interim
-    # print interim_2
     return sum(interim_2)
 
 
@@ -162,9 +159,8 @@ def alphabeta(board, max_m):
             # print "current best score: ", best_score
     return alpha, (best_move if best_move != None else my_move ), best_move_descriptor if best_move_descriptor !=0 else my_move_desciptor
 
-
-
-# profile.run("alphabeta(board,8)")
+# used for finding time sinks
+cProfile.run("alphabeta(board,4)")
 
 # Let's Play!
 for max_m in range(0,100,1):
