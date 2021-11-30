@@ -56,31 +56,30 @@ def score(board):
         return col*row
 
     interim_2 =[ sum([spotValue(colValue,rowValue) if spot == current else -spotValue(colValue,rowValue) if spot == not_current else 0 for spot, colValue in zip(row, range(1,n+1))]) for row, rowValue in zip(getRows(board,n+3,n), range(1,n+4))]
-    subtotal = sum(interim_2)
 
     # favors boards that have 4 in a row or a diagonal, or disfavors if opponent has them.
     for each in getRows(board,n,n)+getDiagonals(board,n):
         if each.count(current) >= n-1:
-            subtotal += 2*n*n
+            interim_2.extend([2*n*n])
         elif each.count(current) >= n-2:
-            subtotal += n*n
+            interim_2.extend([n*n])
         if each.count(not_current) >= n-1:
-            subtotal += (-2*n*n)
+            interim_2.extend([-2*n*n])
         elif each.count(not_current) >= n-2:
-            subtotal += (-n*n)
+            interim_2.extend([-n*n])
 
     # Might need to modify it further in the future
     for each in getColumns(board,n+3,n):
         if current*n in (each+each).replace(".",""):
-            subtotal += (2*n*n)
+            interim_2.extend([2*n*n])
         elif current*(n-1) in (each+each).replace(".","") and (each+each).count(".") > 0:
-            subtotal += (n*n)
+            interim_2.extend([n*n])
         if not_current*n in each+each.replace(".",""):
-            subtotal += (-2*n*n)
+            interim_2.extend([-2*n*n])
         elif not_current*(n-1) in (each+each).replace(".","") and (each+each).count(".") > 0:
-            subtotal += (-n*n)
+            interim_2.extend([-n*n])
 
-    return subtotal
+    return sum(interim_2)
 
 
 # Superfulous function to make board visually print nice
@@ -161,22 +160,22 @@ def alphabeta(board, max_m):
     return alpha, (best_move if best_move != None else my_move ), best_move_descriptor if best_move_descriptor !=0 else my_move_desciptor
 
 # used for finding time sinks
-# cProfile.run("alphabeta(board,6)")
+cProfile.run("alphabeta(board,6)")
 
 # Let's Play!
-for max_m in range(0,100,1):
-    lets_play = alphabeta(board,max_m)
-    # print max_m
-    # print "score ", lets_play[0]
-    # print "descriptor", lets_play[2]
-    # print pretty_print(lets_play[1])
-    if lets_play[0] == -float('inf'):
-        print("I cannot win. You will only need to take "+str(int(max_m/2)+1)+" moves or fewer to beat me.  That makes me sad.  This game doesn't even let me resign.  Here is a move, please make it a swift execution.")
-        print(str(lets_play[2])+ " "+lets_play[1])
-        break
-    if lets_play[0] == float('inf'):
-        print("I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanquish you!")
-        print(str(lets_play[2])+ " "+lets_play[1])
-        break
-    print(str(lets_play[2])+ " "+lets_play[1])
+# for max_m in range(0,100,1):
+#     lets_play = alphabeta(board,max_m)
+#     # print max_m
+#     # print "score ", lets_play[0]
+#     # print "descriptor", lets_play[2]
+#     # print pretty_print(lets_play[1])
+#     if lets_play[0] == -float('inf'):
+#         print("I cannot win. You will only need to take "+str(int(max_m/2)+1)+" moves or fewer to beat me.  That makes me sad.  This game doesn't even let me resign.  Here is a move, please make it a swift execution.")
+#         print(str(lets_play[2])+ " "+lets_play[1])
+#         break
+#     if lets_play[0] == float('inf'):
+#         print("I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanquish you!")
+#         print(str(lets_play[2])+ " "+lets_play[1])
+#         break
+#     print(str(lets_play[2])+ " "+lets_play[1])
     
