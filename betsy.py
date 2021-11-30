@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # CS B551 - Elements of AI
 # Indiana University, Fall 2018
@@ -95,7 +95,7 @@ def moves(board,turn):
         if "."*(n+3) in each:
             None # nothing to rotate
         else:
-            rotated_column = ["."]*each.count(".") + list(filter(lambda k:"." not in k,list(each)).pop()) + filter(lambda k:"." not in k,list(each))[0:-1]
+            rotated_column = ["."]*each.count(".") + list(list(filter(lambda k:"." not in k,list(each))).pop()) + list(filter(lambda k:"." not in k,list(each)))[0:-1]
             rotated_board = "".join([rotated_column.pop(0) if j in [i+m*n for m in range(n+3)] else list(board)[j] for j in range(n*(n+3))])
             new_boards.extend([[rotated_board,-(i+1)]])  #append
 
@@ -170,12 +170,12 @@ for max_m in range(0,100,1):
     # print "descriptor", lets_play[2]
     # print pretty_print(lets_play[1])
     if lets_play[0] == -float('inf'):
-        print "I cannot win. You will only need to take "+str(int(max_m/2)+1)+" moves or fewer to beat me.  That makes me sad.  This game doesn't even let me resign.  Here is a move, please make it a swift execution."
-        print str(lets_play[2])+ " "+lets_play[1]
+        print("I cannot win. You will only need to take "+str(int(max_m/2)+1)+" moves or fewer to beat me.  That makes me sad.  This game doesn't even let me resign.  Here is a move, please make it a swift execution.")
+        print(str(lets_play[2])+ " "+lets_play[1])
         break
     if lets_play[0] == float('inf'):
-        print "I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanquish you!"
-        print str(lets_play[2])+ " "+lets_play[1]
+        print("I only need to take "+str(int(max_m/2)+1)+" moves or fewer to vanquish you!")
+        print(str(lets_play[2])+ " "+lets_play[1])
         break
-    print str(lets_play[2])+ " "+lets_play[1]
+    print(str(lets_play[2])+ " "+lets_play[1])
     
